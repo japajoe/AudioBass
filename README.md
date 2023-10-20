@@ -48,7 +48,7 @@ namespace AudioBassTest
 ```csharp
 using System;
 using System.Collections.Generic;
-using AudioBass
+using AudioBass;
 
 namespace AudioBassTest
 {

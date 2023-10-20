@@ -31,7 +31,7 @@ using AudioBass.Utilities;
 
 namespace AudioBass
 {    
-    public delegate void AudioReadEvent(float[] data, int samples);
+    public delegate void AudioReadEvent(float[] data, int channels);
 
     public sealed class AudioSource : IDisposable
     {

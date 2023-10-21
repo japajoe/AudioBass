@@ -47,12 +47,12 @@ namespace AudioBass
         private static SDL.SDL_AudioSpec specDesired;
         private static SDL.SDL_AudioSpec specObtained;
         private static SDL.SDL_AudioCallback audioCallback;
-        private static float[] mixBuffer;
         private static List<AudioSourceInfo> audioSources = new List<AudioSourceInfo>();
+        private static float[] mixBuffer;
         private static ArrayPool<float> bufferPool;
         private static bool initialized;
 
-        internal static void Initialize(int sampleRate)
+        public static void Initialize(int sampleRate)
         {
             if(initialized)
                 return;
@@ -78,7 +78,7 @@ namespace AudioBass
             initialized = status == 0;
         }
 
-        internal static void Dispose()
+        public static void Dispose()
         {
             if(!initialized)
                 return;

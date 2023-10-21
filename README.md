@@ -146,3 +146,63 @@ namespace AudioBassTest
     }
 }
 ```
+
+```csharp
+using System;
+using AudioBass;
+using AudioBass.Effects;
+
+namespace AudioBassTest
+{
+    class Program
+    {
+        private static AudioSource audioSource;
+        private static float sampleRate = 44100;
+        private static float frequency = 440;
+        private static float tremoloFrequency = 3.3f;
+        private static float amp = 0.5f;
+        private static ulong time = 0;
+
+        static void Main(string[] args)
+        {
+            AudioMixer.Initialize(44100);
+            
+            audioSource = new AudioSource();
+            audioSource.read += OnAudioRead;
+            
+            //You might want to turn your volume down a bit :)
+            var distortion = audioSource.AddEffect<DistortionEffect>();
+            distortion.drive = 10.0f;
+            distortion.range = 10;
+            distortion.blend = 0.5f;
+            distortion.volume = 2.0f;
+
+            audioSource.Play();
+
+            Console.ReadLine();
+
+            AudioMixer.Dispose();
+        }
+
+        private static void OnAudioRead(float[] samples, int channels)
+        {
+            float sample = 0;
+            float tremolo = 0;
+
+            for (int i = 0; i < samples.Length; i+=channels)
+            {
+                sample = (float)Math.Sin(2 * Math.PI * frequency * time / sampleRate) * amp;
+                tremolo = (float)Math.Sin(2 * Math.PI * tremoloFrequency * time / sampleRate);
+
+                sample *= tremolo;
+
+                samples[i] = sample;
+                if(channels == 2)
+                    samples[i + 1] = sample;
+
+                time++;
+            }
+        }
+    }
+}
+```
